@@ -14,4 +14,4 @@ SET fl=1
 
 SYSTEMINFO 1>%fl%
 
-WMIC path Win32_VideoController 1>%fl%
+WMIC path Win32_VideoController 1>>%fl%
