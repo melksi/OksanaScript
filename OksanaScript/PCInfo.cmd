@@ -1,17 +1,25 @@
 @ECHO OFF
 
+SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 
-SETLOCAL ENABLEEXTENSIONS
+SET flPath=%1
+SET fl=
+SET flF=
 
-SET me=%~n0
-SET parent=%~dp0
+IF "%flPath%" NEQ "" (
+SET flF=1^>%flPath%
+SET fl=1^>^>%flPath%
+)
 
-SET fl=%1
+echo CPU information: %flF%
+wmic cpu get Caption,MaxClockSpeed /format:list | findstr /r /v "^$" %fl%
+echo. %fl%
 
-IF [%FL%] EQU [] (
-SET fl=1
-) 
+echo OS information: %fl%
+wmic os get Caption,CSDVersion /format:list | findstr /r /v "^$" %fl%
+echo. %fl%
 
-SYSTEMINFO 1>%fl%
+echo Video controller information: %fl%
+WMIC path Win32_VideoController get Caption,DriverVersion /format:list | findstr /r /v "^$" %fl%
+echo. %fl%
 
-WMIC path Win32_VideoController 1>>%fl%
